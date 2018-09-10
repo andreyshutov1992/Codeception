@@ -1,4 +1,6 @@
-FROM php:7.2-cli
+FROM php:7.0-cli
+ENV NO_PROXY "10.56.2.250, 10.42.5.102, 127.0.0.1"
+
 
 MAINTAINER Tobias Munk tobias@diemeisterei.de
 
@@ -25,6 +27,14 @@ RUN pecl install \
         mongodb.so \
         xdebug
 
+RUN pecl install -o -f redis \
+&&  rm -rf /tmp/pear \
+&&  docker-php-ext-enable redis
+
+# Install php extensions
+RUN docker-php-ext-install pdo pdo_mysql
+
+
 # Configure php
 RUN echo "date.timezone = UTC" >> /usr/local/etc/php/php.ini
 
@@ -35,7 +45,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
         --install-dir=/usr/local/bin
 RUN composer global require --optimize-autoloader \
         "hirak/prestissimo"
-
 # Prepare application
 WORKDIR /repo
 
@@ -52,3 +61,7 @@ ENTRYPOINT ["codecept"]
 # Prepare host-volume working directory
 RUN mkdir /project
 WORKDIR /project
+
+RUN useradd sybase \
+    && usermod -u 1001 sybase \
+    && groupmod -g 1001 sybase
