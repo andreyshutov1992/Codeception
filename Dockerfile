@@ -1,5 +1,4 @@
 FROM php:7.0-cli
-ENV NO_PROXY "10.56.2.250, 10.42.5.102, 127.0.0.1"
 
 
 MAINTAINER Tobias Munk tobias@diemeisterei.de
