@@ -31,7 +31,7 @@ RUN pecl install -o -f redis \
 &&  docker-php-ext-enable redis
 
 # Install php extensions
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql sockets
 
 
 # Configure php
