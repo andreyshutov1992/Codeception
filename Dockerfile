@@ -64,3 +64,4 @@ WORKDIR /project
 RUN useradd sybase \
     && usermod -u 1001 sybase \
     && groupmod -g 1001 sybase
+USER sybase
